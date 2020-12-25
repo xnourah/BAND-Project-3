@@ -1,0 +1,49 @@
+SELECT Artist.Name , count(Album.AlbumId) AS Albums
+FROM Artist JOIN Album
+ON Artist.ArtistId=Album.ArtistId
+GROUP BY Artist.Name
+ORDER BY Albums DESC
+LIMIT 10 
+-----------------------------------
+SELECT Artist.Name,sum(InvoiceLine.UnitPrice * InvoiceLine.Quantity) AS ArtistRevenue
+FROM Artist
+JOIN Album
+ON Artist.ArtistId = Album.ArtistId 
+JOIN Track
+ON Album.AlbumId = Track.AlbumId 
+JOIN InvoiceLine
+ON Track.TrackId=InvoiceLine.TrackId
+JOIN Invoice
+ON InvoiceLine.InvoiceId=Invoice.InvoiceId
+GROUP BY Artist.ArtistId
+ORDER BY ArtistRevenue DESC
+LIMIT 5;
+-----------------------------------
+SELECT Track.Name AS Track_Name ,SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as TrackEraning 
+FROM Track
+JOIN InvoiceLine
+ON InvoiceLine.TrackId = Track.TrackId
+JOIN Invoice
+ON Invoice.InvoiceId=InvoiceLine.InvoiceId
+GROUP BY Track.Name
+ORDER BY TrackEraning DESC
+LIMIT 20
+-----------------------------------
+SELECT  Genre.Name , SUM(InvoiceLine.UnitPrice * InvoiceLine.Quantity) as GenreEraning
+FROM Genre
+JOIN Track  
+ON Track.GenreId = Genre.GenreId
+JOIN InvoiceLine
+ON Track.TrackId = InvoiceLine.TrackId
+JOIN Invoice
+ON Invoice.InvoiceId=InvoiceLine.InvoiceId
+GROUP BY Genre.Name
+ORDER BY GenreEraning DESC
+LIMIT 10
+-----------------------------------
+SELECT Employee.FirstName , count(Customer.SupportRepId) as SupportRepId , strftime('%Y',Employee.HireDate) as HireYear
+FROM Employee
+JOIN Customer
+ON Employee.EmployeeId=Customer.SupportRepId
+GROUP by Employee.FirstName
+ORDER by SupportRepId DESC 
